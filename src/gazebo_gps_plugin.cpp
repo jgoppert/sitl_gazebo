@@ -286,8 +286,14 @@ void GpsPlugin::OnWorldUpdate(const common::UpdateInfo& /*_info*/)
   gps_bias_.Y() += random_walk_gps_.Y() * dt - gps_bias_.Y() / gps_corellation_time_;
   gps_bias_.Z() += random_walk_gps_.Z() * dt - gps_bias_.Z() / gps_corellation_time_;
 
+  // gps cyberattack
+  if (current_time > 20) {
+  	gps_attack_.X() += 0.25 * dt;
+  	gzdbg << "gps_attack: " << gps_attack_.X() << "\n";
+  }
+
   // reproject position with noise into geographic coordinates
-  auto pos_with_noise = pos_W_I + noise_gps_pos_ + gps_bias_;
+  auto pos_with_noise = pos_W_I + noise_gps_pos_ + gps_bias_ + gps_attack_;
   auto latlon = reproject(pos_with_noise, lat_home_, lon_home_, alt_home_);
 
   // fill SITLGps msg

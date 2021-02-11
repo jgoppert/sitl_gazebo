@@ -115,6 +115,7 @@ private:
   std::queue<sensor_msgs::msgs::SITLGps> gps_delay_buffer_;
 
   ignition::math::Vector3d gps_bias_;
+  ignition::math::Vector3d gps_attack_{};
   ignition::math::Vector3d noise_gps_pos_;
   ignition::math::Vector3d noise_gps_vel_;
   ignition::math::Vector3d random_walk_gps_;
